@@ -3,6 +3,7 @@ from typing import Literal, TypeVar
 
 import duckdb
 import pandas as pd
+from dotenv import load_dotenv
 from inspect_ai import Task, task
 from inspect_ai.dataset import csv_dataset
 from inspect_ai.scorer import Score, Target, accuracy, model_graded_fact, scorer
@@ -18,9 +19,11 @@ from inspect_ai.tool import tool
 from inspect_ai.util import StoreModel, store_as
 from pydantic import Field
 
-from shared import birds, birds_system_prompt
+from shared import birds_system_prompt
 
 T = TypeVar("T")
+
+load_dotenv()
 
 
 class UpdateDashboardCall(StoreModel):
@@ -99,7 +102,9 @@ def sql_scorer():
             answer=last_query,
             explanation=explanation,
             metadata={
-                "expected": str(expected_results.shape) + "\n\n" + expected_results.to_csv(),
+                "expected": str(expected_results.shape)
+                + "\n\n"
+                + expected_results.to_csv(),
                 "actual": str(results.shape) + "\n\n" + results.to_csv(),
             },
         )
@@ -154,6 +159,7 @@ def update_dashboard_sql():
         solver=sidebot_solver(),
         scorer=sql_scorer(),
     )
+
 
 @task
 def query_db_answer():
