@@ -342,30 +342,12 @@ def server(input, output, session):
 
     Chat = ChatAnthropic
     chat_model = "claude-3-7-sonnet-latest"
-    # Chat = ChatOpenAI
-    # chat_model = "gpt-4.1"
-    # from chatlas import ChatGoogle
 
-    # Chat = ChatGoogle
-    # chat_model = "gemini-2.5-pro"
-    # from chatlas import ChatOllama
-    # Chat = ChatOllama
-    # chat_model = "mistral-small:24b"
-    # import os
-    # def Chat(*args, **kwargs):
-    #     return ChatOpenAI(
-    #         *args,
-    #         **kwargs,
-    #         base_url="https://openrouter.ai/api/v1",
-    #         api_key=os.getenv("OPENROUTER_API_KEY"),
-    #     )
-    # chat_model = "deepseek/deepseek-chat-v3-0324"
-
-    chat_session = Chat(
+    client = Chat(
         system_prompt=birds_system_prompt,
         model=chat_model,
     )
-    print(chat_session.system_prompt)
+    print(client.system_prompt)
 
     def fork_session():
         """
@@ -379,10 +361,10 @@ def server(input, output, session):
         Returns:
             A new Chat object which is a fork of the current session.
         """
-        new_session = Chat(system_prompt=chat_session.system_prompt, model=chat_model)
+        new_session = Chat(system_prompt=client.system_prompt, model=chat_model)
         new_session.register_tool(update_dashboard)
         new_session.register_tool(query_db)
-        new_session.set_turns(chat_session.get_turns())
+        new_session.set_turns(client.get_turns())
         return new_session
 
     chat = ui.Chat("chat", messages=[greeting])
@@ -390,7 +372,7 @@ def server(input, output, session):
     @chat.on_user_submit
     async def perform_chat(user_input: str):
         try:
-            stream = await chat_session.stream_async(user_input, echo="all")
+            stream = await client.stream_async(user_input, echo="all")
         except Exception as e:
             traceback.print_exc()
             return await chat.append_message(f"**Error**: {e}")
@@ -430,8 +412,8 @@ def server(input, output, session):
         """
         return duckdb.query(query).to_df().to_json(orient="records")
 
-    chat_session.register_tool(update_dashboard)
-    chat_session.register_tool(query_db)
+    client.register_tool(update_dashboard)
+    client.register_tool(query_db)
 
 
 app = App(app_ui, server, static_assets=here / "www")
