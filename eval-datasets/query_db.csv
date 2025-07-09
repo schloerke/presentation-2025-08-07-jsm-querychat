@@ -1,0 +1,4 @@
+input,target
+"What is the average count? The median?","Average is 5.3399, median is 2"
+"Do more sightings happen from midnight to noon, or noon to midnight?","Midnight to noon"
+"Which day had the highest bird observation totals? (Hint, use strftime())","2025-03-16"

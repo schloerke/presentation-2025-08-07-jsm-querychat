@@ -1,0 +1,18 @@
+input,target
+"Show all varieties of crows","SELECT * FROM birds
+-- Filter to only rows where bird_name indicates a crow variety
+WHERE scientific_name ILIKE '%corvus%'"
+"Limit to sightings between 6AM-10AM","SELECT *
+FROM birds
+-- Filter to observations where hour is between 6 and 9 (6AM-9:59AM)
+WHERE CAST(strftime('%H', time) AS INTEGER) >= 6
+  AND CAST(strftime('%H', time) AS INTEGER) < 10"
+"Filter to observations where the count was high (90+ percentile)","WITH pct90 AS (
+  SELECT
+    quantile_cont(count, 0.9) AS p90
+  FROM birds
+)
+SELECT *
+FROM birds
+WHERE count >= (SELECT p90 FROM pct90)
+-- Keeps only birds observed in the highest 10% for count (all observations)"
