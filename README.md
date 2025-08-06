@@ -13,7 +13,8 @@ To run this demo, you will need an Anthropic API key; you can get one via the [A
 
 Create a file named `.env` in the root of this repository, and add your API key like this:
 
-```ANTHROPIC_API_KEY=your_api_key_here
+```bash
+ANTHROPIC_API_KEY=your_api_key_here
 ```
 
 Then, you can run the demo using the following command:
