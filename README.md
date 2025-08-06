@@ -2,6 +2,7 @@
 
 ## Helpful links
 
+* [Slides](https://schloerke.com/presentation-2025-08-07-jsm-querychat/)
 * Get started by watching ["Harnessing LLMs for Data Analysis"](https://www.youtube.com/watch?v=owDd1CJ17uQ) (YouTube)
 * [Ellmer](https://ellmer.tidyverse.org/): Easily call LLMs from R
 * [Chatlas](https://posit-dev.github.io/chatlas/): Easily call LLMs from Python
