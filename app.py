@@ -37,7 +37,7 @@ You can also say <span class="suggestion submit">Reset</span> to clear the curre
 """
 
 # Set to True to greatly enlarge chat UI (for presenting to a larger audience)
-DEMO_MODE = False
+DEMO_MODE = True
 
 icon_ellipsis = fa.icon_svg("ellipsis")
 icon_explain = ui.img(src="stars.svg")
